@@ -26,9 +26,9 @@ image blob
 create table user(
 id int(5) primary key auto_increment,
 username varchar(20) unique,
-password varchar(20),
+password varchar(100),
 FName varchar(20),
-LName varchar(20),
+LName varchar(20),user
 email varchar(30),
 mobil varchar(30),
 Adresse varchar(50),
@@ -57,7 +57,6 @@ INSERT INTO produkt (name, kategori, description, size, pris, leveringstid) VALU
 ('BRUSH BLACK', 'POSTER', 'Elegante og stilfulde elementer med en sort penselstrøg på hvid bakgrunt. Printet er hånd malet og trykt på papir af høj kvalitet. Vi har en bred vifte af sorte og hvide plakater og prints af kunst prints.', '50x70', 99, '3-5'),
 ('DANCER ONE', 'PLAKAT', 'Sort-hvid plakat med en dansende kvinde. Et cool portræt spækket med energi, som bliver rigtig effektfuld på væggen.', '61x91', 119, '2-5'),
 ('WHITE OWL', 'POSTER', 'Plakat med fotokunst i form af en hvid ugle. Et smukt og lyst fotografi, der ser godt ud på enhver væg. ', '70x100', 159, '2-3');
-SELECT * FROM produkt;
 SELECT id,name, kategori, description, size, pris, leveringstid FROM produkt;
 
 INSERT INTO user (username, password, FName,LName,email,adresse,postnr) VALUES ('bruger1', 'test123', 'Albert', 'Eistien','ae@mail.com','Himmelvejen 1', 8900);

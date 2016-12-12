@@ -30,7 +30,8 @@ public class Product {
         this.pris = pris;
         this.leveringstid = leveringstid;
     }
-
+    
+    
     public int getId() {
         return id;
     }

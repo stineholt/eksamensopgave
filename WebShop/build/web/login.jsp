@@ -26,8 +26,9 @@
         <div class="form-group">
         <form action="loginservlet" method="POST">
             <h3>Log in her:</h3>
+            <input type="hidden" value="login" name="origin" />
             <input type="text" name="username" placeholder="Brugernavn" value="<%= session.getAttribute("username")%>"  class="form-control"/><br>
-            <input type="text" name="password" placeholder="Password" class="form-control"/><br>
+            <input type="password" name="password" placeholder="Password" class="form-control"/><br>
             <input type="submit" value="Log in" class="btn btn-default"/><br><br>
         </form>
         <form action="createNewUser.jsp" method="GET">

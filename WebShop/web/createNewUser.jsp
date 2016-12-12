@@ -20,6 +20,7 @@
         <div class="navbar navbar-default">
             
         <form action="createNewUserServlet" method="POST" >
+            <input type="hidden" value="registre" name="origin" />
             <h3>Udfyld for at oprette bruger:</h3>
             <table>
                 <tr>
@@ -28,7 +29,7 @@
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input type="text" name="password" value="" class="form-control"/></td>
+                    <td><input type="password" name="password" value="" class="form-control"/></td>
                 </tr>
                 <tr><td></td><td></td></tr>
                 <tr><td></td><td></td></tr>

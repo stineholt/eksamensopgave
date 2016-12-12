@@ -7,24 +7,18 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.PasswordStorage;
-import model.UserMapper;
 
 /**
  *
  * @author sbh
  */
-@WebServlet(name = "createNewUserServlet", urlPatterns = {"/createNewUserServlet"})
-public class createNewUserServlet extends HttpServlet {
+@WebServlet(name = "showPurchaseServlet", urlPatterns = {"/showPurchaseServlet"})
+public class showPurchaseServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,16 +37,16 @@ public class createNewUserServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet createNewUserServlet</title>");            
+            out.println("<title>Servlet showPurchaseServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet createNewUserServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet showPurchaseServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
 
-    
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -76,35 +70,9 @@ public class createNewUserServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    try{
-        UserMapper um = new UserMapper();
-        
-        String usernameForm = request.getParameter("username");
-        String passwordForm = request.getParameter("password");
-        String fornavnForm = request.getParameter("fornavn");
-        String efternavnForm = request.getParameter("efternavn");
-        String emailForm = request.getParameter("email");
-        String mobilForm = request.getParameter("mobil");
-        String adresseForm = request.getParameter("adresse");
-        String postnrForm = request.getParameter("postnr");
-        
-        
-            um.createUser(usernameForm, passwordForm, fornavnForm, efternavnForm, emailForm, mobilForm, adresseForm, postnrForm);
-        
-        
-            //Test udprint//
-            PrintWriter out = response.getWriter(); 
-            out.print("Oprettet succesfully med: "+usernameForm+" "+passwordForm+" "+fornavnForm+" "+efternavnForm+" "+emailForm+" "+mobilForm+" "+adresseForm+" "+postnrForm);
-            
-            HttpSession session = request.getSession();
-            session.setAttribute("username", usernameForm);
-            
-        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward (request, response);
-    }   catch (PasswordStorage.CannotPerformOperationException ex) {
-            Logger.getLogger(createNewUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**

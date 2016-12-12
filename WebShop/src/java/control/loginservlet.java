@@ -7,23 +7,22 @@ package control;
 
 
 import java.io.IOException;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import model.PasswordStorage;
 import model.UserMapper;
-import model.entity.Product;
-import model.entity.User;
 
 /**
  *
  * @author sbh
  */
-@WebServlet(name = "loginservlet", urlPatterns = {"/loginservlet"})
+@WebServlet(name = "loginservlet", urlPatterns = {"/loginservlet","/index.html"})
 public class loginservlet extends HttpServlet {
 
 
@@ -53,18 +52,50 @@ public class loginservlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserMapper um = new UserMapper();
+        
+        if(request.getParameter("username") == null)
+            response.sendRedirect("login.jsp");
+        
+        String origin = request.getParameter("origin");
+        
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        boolean isAuthenticated = um.authenticateUser(username, password);
         
-        if(isAuthenticated){
-
-            HttpSession session = request.getSession();
-            session.setAttribute("username", username);
-            
-            RequestDispatcher rd = request.getRequestDispatcher("showProducts");
-            rd.forward (request, response);
+        if (origin == null){
+            response.sendRedirect("login.jsp");
+        }else{
+            switch (origin){
+                case "login" :
+                    System.out.println("i login case");
+            {
+                try {
+                    if(um.authenticateUser(username,password)){
+                        request.getSession().setAttribute("username", username);
+                        RequestDispatcher rd = request.getRequestDispatcher("showProducts");
+                        rd.forward (request, response); 
+                    }
+                } catch (PasswordStorage.CannotPerformOperationException ex) {
+                    Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (PasswordStorage.InvalidHashException ex) {
+                    Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                default :
+                    response.sendRedirect("login.jsp");
+                    break;
+            }
+                    
         }
+//                boolean isAuthenticated = um.authenticateUser(username, password);
+//
+//                if(isAuthenticated){
+//
+//                    HttpSession session = request.getSession();
+//                    session.setAttribute("username", username);
+//
+//                    RequestDispatcher rd = request.getRequestDispatcher("showProducts");
+//                    rd.forward (request, response);
+//                }
     }
         
 
@@ -78,4 +109,5 @@ public class loginservlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
 }

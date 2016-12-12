@@ -10,62 +10,65 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author sbh
  */
 public class OrderMapper {
-//    public void newOrder(String username){
-//        try{
-//            String sql = "INSERT INTO ordertable(username,orderdate,ordrebestilt) VALUES (?, ?, false);";
-//            Connection con = DB.getConnection();
-//            PreparedStatement pstmt = con.prepareCall(sql);
-//                        
-//            pstmt.setString(1, username);
-//            pstmt.setDate(2, new java.sql.Date(date.getTime()));
-//            
-//            pstmt.executeUpdate();
-//
-//        }catch(SQLException ex) {
-//            ex.printStackTrace();
-//        }
+    public void newOrder(String username, Date date){
+        try{
+            String sql = "INSERT INTO ordertable(username,orderdate,ordrebestilt) VALUES (?, ?, false);";
+            Connection con = DB.getConnection();
+            PreparedStatement pstmt = con.prepareCall(sql);
+                        
+            pstmt.setString(1, username);
+            pstmt.setDate(2, new java.sql.Date(date.getTime()));
+            
+            pstmt.executeUpdate();
+
+        }catch(SQLException ex) {
+            ex.printStackTrace();
+        }
                 
-//    }//end newOrder()
+    }//end newOrder()
     
-    public int getOrder (String username, Date date){
+    public int getOrderID (String username){
         try {
-            String sql = "select orderid,username,orderdate,ordrebestilt from ordertable where username = ? and orderdate = ?";
+            String sql = "select orderid,username,orderdate,ordrebestilt from ordertable where username = ? and ordrebestilt = false";
             PreparedStatement pstmt = DB.getConnection().prepareStatement(sql);
             pstmt.setString(1, username);
-            pstmt.setDate(2, date);
+//            pstmt.setDate(2, (java.sql.Date) date);
             ResultSet rs = pstmt.executeQuery();
-            int orderid = 0;
+//            int orderid = 0;
             
             if(rs.next()){
+                System.out.println("vi er nu i loopet");
                 String usernameDB = rs.getString("username");
-                //Date date = rs.getDate("ordredate");
-                if (usernameDB.equalsIgnoreCase(username)){
-                rs.getInt("orderid");
-                return orderid;
-            }
+//                Date dateDB = rs.getDate("ordredate");
+                    if (usernameDB.equalsIgnoreCase(username)){
+                    int orderid = rs.getInt("orderid");
+                    return orderid;
+                    }
                 
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        System.out.println("loopet endte uden resultat");
         return 0;
-    }
-    
-    
-    
+    } //end getOrderID
+
+//    
+//    
+//    
 //      //////// TEST AREA ////////
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         OrderMapper om = new OrderMapper();
+        
+        //tester new order oprettelse
 //        try{
 //            Date orderDate = new SimpleDateFormat("dd-MM-yyyy").parse("25-11-2016");
 //            om.newOrder("bruger1",orderDate);
@@ -73,7 +76,8 @@ public class OrderMapper {
 //            Logger.getLogger(OrderMapper.class.getName()).log(Level.SEVERE, null, ex);
 //        }
         
-//        om.getOrder("bruger1");
+        // tester get order id via brugernavn og at ordren ikke er købt
+            System.out.println(om.getOrderID("bruger1"));
         
     }// TEST AREA END //
 

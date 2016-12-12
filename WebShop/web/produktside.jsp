@@ -24,6 +24,7 @@
                           //  request.getRequestDispatcher("login.jsp").forward(request, response);
                             //return; }
                         %> 
+                        
                 <input type="hidden" name="origin" value="logout">
                 <input type="submit" value="Logout" class="btn btn-default">
             </form>
@@ -31,6 +32,8 @@
         </div>     
 
         <h1></h1>
+        
+        <input type="text" name="orderid" value="<%=  session.getAttribute("orderid") %>">
         
         <table class="table table-striped">
             <tbody>
@@ -43,7 +46,7 @@
                 <tr>
                     <td>
                         <input type="hidden" name="produktid" value="<%= product.getId() %>">
-                        <%--<input type="hidden" name="orderid" value="<%=  %>">--%>
+                        <input type="hidden" name="orderid" value="<%=  session.getAttribute("orderid") %>">
                     </td>
                     <td><%= product.getProduktname() %></td>
                     <td>kategori</td>
