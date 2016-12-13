@@ -126,15 +126,20 @@ public class BuyProduct extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession();
-//            int produktid = Integer.parseInt(request.getParameter("produktid")); // test af string for produktparameter så outcomment
-            String produktid = (String) session.getAttribute("produktid");
+            int produktid = Integer.parseInt(request.getParameter("produktid")); // test af string for produktparameter så outcomment
             String username = (String) session.getAttribute("username");
-            String orderID = (String) session.getAttribute("orderid");
+            int orderID = (int) session.getAttribute("orderid");
+            String idProduktString = request.getParameter("produktid");
             
                 //Ny order oprettelse//
                 OrderMapper om = new OrderMapper();
+                ProduktMapper pm = new ProduktMapper();
                 
-                if (orderID == null){
+                out.println(produktid);
+                out.println(username);
+                out.println(orderID+" statisk test af data <br/><br/> ");
+                
+                if (orderID == 0){
                 
                         String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
@@ -161,15 +166,20 @@ public class BuyProduct extends HttpServlet {
                         
                 }
                 else{
-//                    out.println("i else loopdel");
+                    out.println("  Du har valgt følgende produkt til din ordre: ");
                     int idOrder = om.getOrderID(username);
-                    new ProduktMapper().placeProduktForPurchase(orderID, produktid);  // den her del virker pt ikke, men methoden på ProduktMapper virker
+                    String orderidasString = Integer.toString(idOrder);
+                    pm.placeProduktForPurchase(orderidasString, idProduktString);  // den her del virker pt ikke, men methoden på ProduktMapper virker
+                    out.println("<br/> Ordre id integervalue: "+idOrder);
+                    out.println("<br/> produkt som er valgt: "+idProduktString);
+                    out.println("<br/> Ordre som String: "+orderidasString);
                     
                     session.setAttribute("orderid", idOrder);
-                    
-                    RequestDispatcher rd = request.getRequestDispatcher("produktside.jsp");
-                            rd.forward (request, response);
-                }}
+//                    
+//                    RequestDispatcher rd = request.getRequestDispatcher("produktside.jsp");
+//                            rd.forward (request, response);
+                }
+        }
     }
 
     /**

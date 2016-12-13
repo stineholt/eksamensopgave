@@ -28,7 +28,7 @@ id int(5) primary key auto_increment,
 username varchar(20) unique,
 password varchar(100),
 FName varchar(20),
-LName varchar(20),user
+LName varchar(20),
 email varchar(30),
 mobil varchar(30),
 Adresse varchar(50),
@@ -45,9 +45,9 @@ foreign key(username) references user(username)
 );
 
 create table produktONorder(
+orderlinie int primary key auto_increment,
 produktid int(5),
 orderid int(5),
-primary key(orderid, produktid),
 foreign key(produktid) references produkt(id),
 foreign key(orderid) references ordertable(orderid)
 );
@@ -57,9 +57,9 @@ INSERT INTO produkt (name, kategori, description, size, pris, leveringstid) VALU
 ('BRUSH BLACK', 'POSTER', 'Elegante og stilfulde elementer med en sort penselstrøg på hvid bakgrunt. Printet er hånd malet og trykt på papir af høj kvalitet. Vi har en bred vifte af sorte og hvide plakater og prints af kunst prints.', '50x70', 99, '3-5'),
 ('DANCER ONE', 'PLAKAT', 'Sort-hvid plakat med en dansende kvinde. Et cool portræt spækket med energi, som bliver rigtig effektfuld på væggen.', '61x91', 119, '2-5'),
 ('WHITE OWL', 'POSTER', 'Plakat med fotokunst i form af en hvid ugle. Et smukt og lyst fotografi, der ser godt ud på enhver væg. ', '70x100', 159, '2-3');
-SELECT id,name, kategori, description, size, pris, leveringstid FROM produkt;
+SELECT id,name,kategori,description,size,pris,leveringstid FROM produkt;
 
-INSERT INTO user (username, password, FName,LName,email,adresse,postnr) VALUES ('bruger1', 'test123', 'Albert', 'Eistien','ae@mail.com','Himmelvejen 1', 8900);
+INSERT INTO user (username, password, FName,LName,email,adresse,postnr) VALUES ('bruger1', 'sha1:64000:18:ZEDrgMt8BPKP0aNKBwuf2BAWm81DOrhX:Ini9tDuPEoSu8o2K1kKUe0r4', 'Albert', 'Eistien','ae@mail.com','Himmelvejen 1', 8900);
 INSERT INTO user (username, password, FName,LName,email) VALUES ('admin', 'admin123', 'Admin', 'Bruger','adm@mail.com');
 INSERT INTO user (username, password, FName,LName,email) VALUES ('test', 'test123', 'Test', 'Bruger','test@mail.com');
 SELECT * FROM user;
@@ -72,6 +72,7 @@ INSERT INTO ordertable(username, orderdate,ordrebestilt) VALUES ('bruger1', '201
 SELECT * FROM ordertable;
 
 INSERT INTO	produktONorder(produktid,orderid) values (1,1);
+INSERT INTO	produktONorder(produktid,orderid) values (1,4);INSERT INTO	produktONorder(produktid,orderid) values (3,4);
 INSERT INTO	produktONorder(produktid,orderid) values (2,2);
 INSERT INTO	produktONorder(produktid,orderid) values (3,2);
 INSERT INTO	produktONorder(produktid,orderid) values (4,3);
@@ -94,7 +95,23 @@ FROM
     ON produktONorder.produktid = produkt.id
     INNER JOIN user ON ordertable.username = user.username
 WHERE
-    user.username = 'bruger1' AND ordertable.orderid = 2;
+    user.username = 'bruger1' AND ordertable.orderid = 1;
+    
+SELECT 
+    ordertable.orderid,
+    username,
+    name,
+    pris
+FROM
+    ordertable INNER JOIN produktONorder 
+    ON ordertable.orderid = produktONorder.orderid
+    INNER JOIN produkt 
+    ON produktONorder.produktid = produkt.id
+    INNER JOIN user ON ordertable.username = user.username
+WHERE
+    user.username = 'admin' AND ordertable.orderid = 1;
+    
+SELECT ordertable.orderid, user.username, produkt.name, produkt.pris FROM ordertable INNER JOIN produktONorder ON ordertable.orderid = produktONorder.orderid INNER JOIN produkt ON produktONorder.produktid = produkt.id INNER JOIN user ON ordertable.username = user.username WHERE user.username = 'admin' AND ordertable.orderid = 1;
 
 
 -- ONLY SUM AF ORDRENS PRIS FOR DET USERNAME -- 
@@ -105,5 +122,6 @@ select ordertable.orderid, user.username, SUM(pris)
     ON produktONorder.produktid = produkt.id
     INNER JOIN user ON ordertable.username = user.username
 WHERE
-    user.username = 'bruger1' AND ordertable.orderid = 2;
-    
+    user.username = 'bruger1' AND ordertable.orderid = 4;
+   
+select SUM(pris) as samletpris from ordertable INNER JOIN produktONorder ON ordertable.orderid = produktONorder.orderid INNER JOIN produkt ON produktONorder.produktid = produkt.id INNER JOIN user ON ordertable.username = user.username WHERE user.username = 'admin' AND ordertable.orderid = 1;

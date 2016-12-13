@@ -35,6 +35,12 @@
         
         <input type="text" name="orderid" value="<%=  session.getAttribute("orderid") %>">
         
+        <form action="showPurchaseServlet" method="POST">
+            <input type="text" name="orderid" value="<%=  session.getAttribute("orderid") %>">
+            <input type="text" name="username" value="<%= session.getAttribute("username") %>">
+            <input type="submit" value="Inkøbskurv" />
+        </form>
+        
         <table class="table table-striped">
             <tbody>
                 <%  
@@ -42,7 +48,8 @@
                     for (Product product : produktliste){
                         %>
                     
-            <form action="BuyProduct" method="POST">
+                <form action="BuyProduct" method="POST">
+                
                 <tr>
                     <td>
                         <input type="hidden" name="produktid" value="<%= product.getId() %>">
@@ -50,7 +57,7 @@
                     </td>
                     <td><%= product.getProduktname() %></td>
                     <td>kategori</td>
-                    <td>Beskrivelse af produktet.<br/><br/>LEVERINGSTID:<br/>Forventet til <%= product.getLeveringstid() %> dage</td>
+                    <td>Beskrivelse:<br/><%= product.getDescription() %><br/>LEVERINGSTID:<br/>Forventet til <%= product.getLeveringstid() %> dage</td>
                     <td><%= product.getSize() %> cm</td>
                     <td><%= product.getPris() %> kr.</td>
                     <td><input type="submit" name="submit" value="Tilføj inkøbskurv"></td>

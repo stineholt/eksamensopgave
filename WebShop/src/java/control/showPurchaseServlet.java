@@ -6,12 +6,18 @@
 package control;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.PrintWriter;import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.ProduktMapper;
+import model.entity.ProductByOrder;
 
 /**
  *
@@ -34,15 +40,33 @@ public class showPurchaseServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet showPurchaseServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet showPurchaseServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            
+            HttpSession session = request.getSession();
+            String usernameSession = (String) session.getAttribute("username");
+            String orderidSession = (String) session.getAttribute("orderid");
+            String orderidRequest = (String) request.getAttribute("orderid");
+            
+            ProduktMapper pm = new ProduktMapper();
+//            List<ProductByOrder> purchasedProducts = pm.getAllPurchaseByUser(usernameSession, orderidSession);
+//            String SamletPris = pm.getPrisForPurchase(usernameSession, orderidSession);
+            String SamletPristest = pm.getPrisForPurchase("bruger1", "4");
+            
+            request.setAttribute("SamletPris", SamletPristest);
+//            session.setAttribute("SamletPris", SamletPris);
+//            session.setAttribute("PurshasedProducts", purchasedProducts);
+            
+            out.println(usernameSession);
+            out.println(orderidSession);
+            out.println(orderidRequest);
+            out.println(SamletPristest);
+//            out.println(SamletPris);
+//            out.println(purchasedProducts);
+            
+//            RequestDispatcher rd = request.getRequestDispatcher("Purchasekurv.jsp");
+//            rd.forward (request, response);
+            
+            
+            
         }
     }
 

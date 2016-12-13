@@ -24,7 +24,7 @@ public class ProduktMapper {
         ArrayList<Product> listofProducts = new ArrayList<Product>();
         
         try{
-            String sql = "SELECT id,name,size,pris,leveringstid FROM produkt;";
+            String sql = "SELECT id,name,kategori,description,size,pris,leveringstid FROM produkt";
             Connection con = DB.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);
         
@@ -35,8 +35,8 @@ public class ProduktMapper {
                 
                 selectedProduct.setId(rs.getInt("id"));
                 selectedProduct.setProduktname(rs.getString("name"));
-//                selectedProduct.getKategori(rs.getString("kategori"));
-//                selectedProduct.getDescription(rs.getString("description"));
+                selectedProduct.setKategori(rs.getString("kategori"));
+                selectedProduct.setDescription(rs.getString("description"));
                 selectedProduct.setSize(rs.getString("size"));
                 selectedProduct.setPris(rs.getString("pris"));
                 selectedProduct.setLeveringstid(rs.getString("leveringstid"));
@@ -131,14 +131,16 @@ public class ProduktMapper {
     public static void main(String[] args) {
         ProduktMapper pm = new ProduktMapper();
         
-//        ArrayList<Product> producter = pm.getAllProducts();
-//        for (Product product : producter) {
-//            System.out.println(product.getProduktname());
-//            System.out.println(product.getPris());
-//            System.out.println(product.getSize());
-//        }
+        ArrayList<Product> producter = pm.getAllProducts();
+        for (Product product : producter) {
+            System.out.println(product.getProduktname());
+            System.out.println(product.getPris());
+            System.out.println(product.getSize());
+            System.out.println(product.getDescription());
+            System.out.println(product.getKategori());
+        }
         
-//        pm.placeProduktForPurchase("1", "1");
+        pm.placeProduktForPurchase("4", "1");
 
 //        ArrayList<ProductByOrder> produkter = pm.getAllPurchaseByUser("admin", "1");
 //        for (ProductByOrder product : produkter) {

@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.OrderMapper;
 import model.PasswordStorage;
 import model.UserMapper;
 
@@ -71,6 +72,10 @@ public class loginservlet extends HttpServlet {
                 try {
                     if(um.authenticateUser(username,password)){
                         request.getSession().setAttribute("username", username);
+                        OrderMapper om = new OrderMapper();
+                        int orderid = om.getOrderID(username);
+                        request.getSession().setAttribute("orderid", orderid);
+                        
                         RequestDispatcher rd = request.getRequestDispatcher("showProducts");
                         rd.forward (request, response); 
                     }
