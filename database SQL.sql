@@ -53,7 +53,7 @@ foreign key(orderid) references ordertable(orderid)
 );
 
 INSERT INTO produkt (name, kategori, description, size, pris, leveringstid) VALUES 
-('INTO THE BLUE', 'POSTER', 'Poster med abstrakt kunst i blå, hvid og guld. Plakaten fås i flere forskellige størrelser. Plakaten er skabt ud fra en håndlavet maleri og har canvasstrukturen venstre.', '30x40', 75, '2-3'),
+('INTO THE 5', 'POSTER', 'Poster med abstrakt kunst i blå, hvid og guld. Plakaten fås i flere forskellige størrelser. Plakaten er skabt ud fra en håndlavet maleri og har canvasstrukturen venstre.', '30x40', 75, '2-3'),
 ('BRUSH BLACK', 'POSTER', 'Elegante og stilfulde elementer med en sort penselstrøg på hvid bakgrunt. Printet er hånd malet og trykt på papir af høj kvalitet. Vi har en bred vifte af sorte og hvide plakater og prints af kunst prints.', '50x70', 99, '3-5'),
 ('DANCER ONE', 'PLAKAT', 'Sort-hvid plakat med en dansende kvinde. Et cool portræt spækket med energi, som bliver rigtig effektfuld på væggen.', '61x91', 119, '2-5'),
 ('WHITE OWL', 'POSTER', 'Plakat med fotokunst i form af en hvid ugle. Et smukt og lyst fotografi, der ser godt ud på enhver væg. ', '70x100', 159, '2-3');
