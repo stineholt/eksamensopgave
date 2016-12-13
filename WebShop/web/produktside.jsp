@@ -17,26 +17,31 @@
         <div class="navbar navbar-default">
             <div class="form-group" style="float: left; padding-left: 10px;"><h1> Plakat Webshop</h1></div>
             <div class="form-group" style="float: right;">   
-            <form action="Login" method="POST">
+            <form action="loginservlet" method="POST">
                 Logget ind som: <%= session.getAttribute("username") %>
                         <%  // Tjekker at bruger er logget ind //
-                        //if(session.getAttribute("username") == null){
-                          //  request.getRequestDispatcher("login.jsp").forward(request, response);
-                            //return; }
-                        %> 
+                        if(session.getAttribute("authenticated") == null){
+                            request.getRequestDispatcher("login.jsp").forward(request, response);
+                            return; }
+                        %>
                         
                 <input type="hidden" name="origin" value="logout">
                 <input type="submit" value="Logout" class="btn btn-default">
             </form>
+                        
+                        <form action="loginservlet" method="POST">
+                                <input type="hidden" name="origin" value="logout">
+                                <input type="submit" value="Logout">
+                        </form>
             </div>
         </div>     
 
         <h1></h1>
         
-        <div style="float: right; text-align: center; padding-right: 10px;">
+        <div style="float: right; text-align: center; padding: 10px; margin-right: 5px;" class="navbar navbar-default">
             <input type="hidden" name="orderid" value="<%=  session.getAttribute("orderid") %>">
             <a style="color: red"><%=  session.getAttribute("besked") %></a>
-
+            <br/><br/>
             <form action="showPurchaseServlet" method="POST">
                 <input type="hidden" name="orderid" value="<%=  session.getAttribute("orderid") %>">
                 <input type="hidden" name="username" value="<%= session.getAttribute("username") %>">
@@ -45,6 +50,7 @@
             </form>
         </div>
         
+        <div style="margin: auto; width: 65%; height: 100%; float: inside; padding: 10px;">
                 <table class="table table-striped">
                     <tbody>
                         <%  
@@ -73,35 +79,9 @@
                             </form>  
 
                         </div>
-                            
-                        
-                
-                    <%-- almindelig table format
-                            <table class="table table-striped">
-                            <tbody>
-                                <%  
-                                    List<Product> produktliste = (List<Product>)session.getAttribute("ProductListe");
-                                    for (Product product : produktliste){
-                                 %>
-
-                                <form action="BuyProduct" method="POST">
-
-                                <tr>
-                                    <td>
-                                        <input type="hidden" name="produktid" value="<%= product.getId() %>">
-                                        <input type="hidden" name="orderid" value="<%=  session.getAttribute("orderid") %>">
-                                    </td>
-                                    <td><%= product.getProduktname() %></td>
-                                    <td><%= product.getKategori() %></td>
-                                    <td>Beskrivelse:<br/><%= product.getDescription() %><br/>LEVERINGSTID:<br/>Forventet til <%= product.getLeveringstid() %> dage</td>
-                                    <td><%= product.getSize() %> cm</td>
-                                    <td><%= product.getPris() %> kr.</td>
-                                    <td><input type="submit" name="submit" value="Tilføj inkøbskurv"></td>
-                                </tr>
-                            </form>--%>
                         
                     <% } %>
-                
+            </div>    
                 
             </tbody>
         </table>

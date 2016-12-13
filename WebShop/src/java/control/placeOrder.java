@@ -7,23 +7,20 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.ProduktMapper;
-import model.entity.Product;
+import model.OrderMapper;
 
 /**
  *
  * @author sbh
  */
-@WebServlet(name = "showProducts", urlPatterns = {"/showProducts"})
-public class showProducts extends HttpServlet {
+@WebServlet(name = "placeOrder", urlPatterns = {"/placeOrder"})
+public class placeOrder extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,20 +37,30 @@ public class showProducts extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             
-        HttpSession session = request.getSession();
-        ProduktMapper pm = new ProduktMapper();
-        List<Product> productliste = pm.getAllProducts();
-        session.setAttribute("ProductListe", productliste);
-        request.getSession().setAttribute("besked", "Se kurv");
-        
-            //TEST//
-//            for (Product product : productliste) {
-//                out.println(product.getProduktname());
-//            }//END TEST//
-//
-        RequestDispatcher rd = request.getRequestDispatcher("produktside.jsp");
-            rd.forward (request, response);
+            String orderidJSP = request.getParameter("orderid");
             
+            OrderMapper om = new OrderMapper();
+            om.closeOrder(orderidJSP);
+            
+            request.getSession().setAttribute("besked", "Order er bestilt");
+            request.getSession().setAttribute("orderid", 0);
+            
+            response.sendRedirect("produktside.jsp");
+            
+//            RequestDispatcher rd = request.getRequestDispatcher("loginservlet");
+//                rd.forward (request, response);
+            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet placeOrder</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet placeOrder at " + request.getContextPath() + "</h1>");
+            out.println(request.getSession().getAttribute("orderid"));
+            out.println(request.getSession().getAttribute("besked"));
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

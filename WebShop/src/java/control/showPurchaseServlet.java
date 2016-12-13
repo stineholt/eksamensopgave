@@ -42,28 +42,23 @@ public class showPurchaseServlet extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             
             HttpSession session = request.getSession();
-            String usernameSession = (String) session.getAttribute("username");
-            String orderidSession = (String) session.getAttribute("orderid");
-            String orderidRequest = (String) request.getAttribute("orderid");
+            String usernameRequest = request.getParameter("username");
+            String orderidRequest = (String) request.getParameter("orderid");
             
             ProduktMapper pm = new ProduktMapper();
-//            List<ProductByOrder> purchasedProducts = pm.getAllPurchaseByUser(usernameSession, orderidSession);
-//            String SamletPris = pm.getPrisForPurchase(usernameSession, orderidSession);
-            String SamletPristest = pm.getPrisForPurchase("bruger1", "4");
+            List<ProductByOrder> purchasedProducts = pm.getAllPurchaseByUser(usernameRequest, orderidRequest);
+            String SamletPris = pm.getPrisForPurchase(usernameRequest, orderidRequest);
             
-            request.setAttribute("SamletPris", SamletPristest);
-//            session.setAttribute("SamletPris", SamletPris);
-//            session.setAttribute("PurshasedProducts", purchasedProducts);
+            session.setAttribute("SamletPris", SamletPris);
+            session.setAttribute("PurshasedProducts", purchasedProducts);
             
-            out.println(usernameSession);
-            out.println(orderidSession);
+            out.println(usernameRequest);
             out.println(orderidRequest);
-            out.println(SamletPristest);
-//            out.println(SamletPris);
-//            out.println(purchasedProducts);
+            out.println(SamletPris);
+            out.println("<br> Order der er købt: "+purchasedProducts);
             
-//            RequestDispatcher rd = request.getRequestDispatcher("Purchasekurv.jsp");
-//            rd.forward (request, response);
+            RequestDispatcher rd = request.getRequestDispatcher("Purchasekurv.jsp");
+            rd.forward (request, response);
             
             
             

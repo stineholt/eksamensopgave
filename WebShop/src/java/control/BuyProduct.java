@@ -151,8 +151,11 @@ public class BuyProduct extends HttpServlet {
                             om.newOrder(username,orderDate);
                             int NewOrder = om.getOrderID(username);
                             session.setAttribute("orderid", NewOrder);
-                            
+                            String orderidasString = Integer.toString(NewOrder);
+                            pm.placeProduktForPurchase(orderidasString, idProduktString);
                             out.println("order id: "+NewOrder+" ");
+                            
+                            session.setAttribute("besked", "Produkt "+idProduktString+" tilføjet til indkøbs kurv");
                             
                             RequestDispatcher rd = request.getRequestDispatcher("produktside.jsp");
                             rd.forward (request, response);

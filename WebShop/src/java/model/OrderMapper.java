@@ -61,25 +61,41 @@ public class OrderMapper {
         return 0;
     } //end getOrderID
 
+    public void closeOrder (String orderid){
+        try{
+            String sql = "UPDATE ordertable SET ordrebestilt = TRUE WHERE orderid = ?";
+            Connection con = DB.getConnection();
+            PreparedStatement pstmt = con.prepareCall(sql);
+            
+            pstmt.setString(1, orderid);
+            
+            pstmt.executeUpdate();
+            
+        }catch(SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//end closeOrder
 //    
 //    
 //    
-//      //////// TEST AREA ////////
-    public static void main(String[] args) throws ParseException {
-        OrderMapper om = new OrderMapper();
-        
-        //tester new order oprettelse
-//        try{
-//            Date orderDate = new SimpleDateFormat("dd-MM-yyyy").parse("25-11-2016");
-//            om.newOrder("bruger1",orderDate);
-//        } catch (ParseException ex) {
-//            Logger.getLogger(OrderMapper.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        
-        // tester get order id via brugernavn og at ordren ikke er købt
-            System.out.println(om.getOrderID("bruger1"));
-        
-    }// TEST AREA END //
+////      //////// TEST AREA ////////
+//    public static void main(String[] args) throws ParseException {
+//        OrderMapper om = new OrderMapper();
+//        
+//        //tester new order oprettelse
+////        try{
+////            Date orderDate = new SimpleDateFormat("dd-MM-yyyy").parse("25-11-2016");
+////            om.newOrder("bruger1",orderDate);
+////        } catch (ParseException ex) {
+////            Logger.getLogger(OrderMapper.class.getName()).log(Level.SEVERE, null, ex);
+////        }
+//        
+//        // tester get order id via brugernavn og at ordren ikke er købt
+//            System.out.println(om.getOrderID("bruger1"));
+//            
+////            om.closeOrder("4");
+//        
+//    }// TEST AREA END //
 
 
 }// end class

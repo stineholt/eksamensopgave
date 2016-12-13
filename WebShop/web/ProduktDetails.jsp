@@ -17,13 +17,13 @@
         <div class="navbar navbar-default">
             <div class="form-group" style="float: left; padding-left: 10px;"><h1> Plakat Webshop</h1></div>
             <div class="form-group" style="float: right;">   
-            <form action="Login" method="POST">
+            <form action="loginservlet" method="POST">
                 Logget ind som: <%= session.getAttribute("username") %>
                         <%  // Tjekker at bruger er logget ind //
-                        //if(session.getAttribute("username") == null){
-                          //  request.getRequestDispatcher("login.jsp").forward(request, response);
-                            //return; }
-                        %> 
+                        if(session.getAttribute("authenticated") == null){
+                            request.getRequestDispatcher("login.jsp").forward(request, response);
+                            return; }
+                        %>
                         
                 <input type="hidden" name="origin" value="logout">
                 <input type="submit" value="Logout" class="btn btn-default">
@@ -74,9 +74,9 @@
                             <h4 style="float: right;"><%= product.getPris() %> kr.</h4><br/><br/>
                             <br/><br/>
                         <input type="submit" name="submit" value="Tilføj inkøbskurv" class="btn"></form>
-                        <form action="ProductDetail" method="POST" style="float: right;">
+                        <form action="produktside.jsp" method="POST" style="float: right;">
                             <input type="hidden" name="produktid" value="<%= product.getId() %>">
-                            <input type="hidden" name="submit" value="Se mere" class="btn btn-default">
+                            <input type="submit" name="submit" value="Tilbage" class="btn btn-default">
                         </form>  
                     </div>
 

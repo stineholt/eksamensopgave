@@ -64,44 +64,42 @@ public class loginservlet extends HttpServlet {
         
         if (origin == null){
             response.sendRedirect("login.jsp");
+            request.getSession().setAttribute("authenticated",null);
         }else{
             switch (origin){
                 case "login" :
                     System.out.println("i login case");
-            {
-                try {
-                    if(um.authenticateUser(username,password)){
-                        request.getSession().setAttribute("username", username);
-                        OrderMapper om = new OrderMapper();
-                        int orderid = om.getOrderID(username);
-                        request.getSession().setAttribute("orderid", orderid);
-                        
-                        RequestDispatcher rd = request.getRequestDispatcher("showProducts");
-                        rd.forward (request, response); 
+                {
+                    try {
+                        if(um.authenticateUser(username,password)){
+                            request.getSession().setAttribute("username", username);
+                            OrderMapper om = new OrderMapper();
+                            int orderid = om.getOrderID(username);
+                            request.getSession().setAttribute("orderid", orderid);
+                            request.getSession().setAttribute("authenticated","true");
+                            
+                            RequestDispatcher rd = request.getRequestDispatcher("showProducts");
+                            rd.forward (request, response); 
+                        }
+                    } catch (PasswordStorage.CannotPerformOperationException ex) {
+                        Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (PasswordStorage.InvalidHashException ex) {
+                        Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (PasswordStorage.CannotPerformOperationException ex) {
-                    Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (PasswordStorage.InvalidHashException ex) {
-                    Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
+                case "logout" :{
+                    System.out.println("i logout case");
+                }
                 default :
                     response.sendRedirect("login.jsp");
+                    request.getSession().setAttribute("authenticated",null);
                     break;
             }
                     
         }
-//                boolean isAuthenticated = um.authenticateUser(username, password);
-//
-//                if(isAuthenticated){
-//
-//                    HttpSession session = request.getSession();
-//                    session.setAttribute("username", username);
-//
-//                    RequestDispatcher rd = request.getRequestDispatcher("showProducts");
-//                    rd.forward (request, response);
-//                }
+
     }
+    
         
 
     /**
