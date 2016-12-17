@@ -25,6 +25,7 @@
             <h1>Webshopname</h1>
         <div class="form-group">
         <form action="loginservlet" method="POST">
+            
             <h3>Log in her:</h3>
             <input type="hidden" value="login" name="origin" />
             <input type="text" name="username" placeholder="Brugernavn" value="<%= session.getAttribute("username")%>"  class="form-control"/><br>

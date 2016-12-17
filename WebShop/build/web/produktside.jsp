@@ -29,10 +29,7 @@
                 <input type="submit" value="Logout" class="btn btn-default">
             </form>
                         
-                        <form action="loginservlet" method="POST">
-                                <input type="hidden" name="origin" value="logout">
-                                <input type="submit" value="Logout">
-                        </form>
+                        
             </div>
         </div>     
 

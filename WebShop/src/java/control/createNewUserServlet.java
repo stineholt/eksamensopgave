@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.DataFacade;
 import model.PasswordStorage;
-import model.UserMapper;
 
 /**
  *
@@ -78,7 +78,7 @@ public class createNewUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try{
-        UserMapper um = new UserMapper();
+        DataFacade df = new DataFacade();
         
         String usernameForm = request.getParameter("username");
         String passwordForm = request.getParameter("password");
@@ -90,7 +90,7 @@ public class createNewUserServlet extends HttpServlet {
         String postnrForm = request.getParameter("postnr");
         
         
-            um.createUser(usernameForm, passwordForm, fornavnForm, efternavnForm, emailForm, mobilForm, adresseForm, postnrForm);
+            df.createUser(usernameForm, passwordForm, fornavnForm, efternavnForm, emailForm, mobilForm, adresseForm, postnrForm);
         
         
             //Test udprint//

@@ -66,6 +66,7 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <h1>Webshopname</h1>\n");
       out.write("        <div class=\"form-group\">\n");
       out.write("        <form action=\"loginservlet\" method=\"POST\">\n");
+      out.write("            \n");
       out.write("            <h3>Log in her:</h3>\n");
       out.write("            <input type=\"hidden\" value=\"login\" name=\"origin\" />\n");
       out.write("            <input type=\"text\" name=\"username\" placeholder=\"Brugernavn\" value=\"");

@@ -8,7 +8,6 @@ package control;
 import java.io.IOException;
 import java.io.PrintWriter;import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.ProduktMapper;
+import model.DataFacade;
 import model.entity.ProductByOrder;
 
 /**
@@ -45,9 +44,9 @@ public class showPurchaseServlet extends HttpServlet {
             String usernameRequest = request.getParameter("username");
             String orderidRequest = (String) request.getParameter("orderid");
             
-            ProduktMapper pm = new ProduktMapper();
-            List<ProductByOrder> purchasedProducts = pm.getAllPurchaseByUser(usernameRequest, orderidRequest);
-            String SamletPris = pm.getPrisForPurchase(usernameRequest, orderidRequest);
+            DataFacade df = new DataFacade();
+            List<ProductByOrder> purchasedProducts = df.getAllPurchaseByUser(usernameRequest, orderidRequest);
+            String SamletPris = df.getPrisForPurchase(usernameRequest, orderidRequest);
             
             session.setAttribute("SamletPris", SamletPris);
             session.setAttribute("PurshasedProducts", purchasedProducts);

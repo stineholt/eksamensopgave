@@ -7,13 +7,12 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.OrderMapper;
+import model.DataFacade;
 
 /**
  *
@@ -39,16 +38,14 @@ public class placeOrder extends HttpServlet {
             
             String orderidJSP = request.getParameter("orderid");
             
-            OrderMapper om = new OrderMapper();
-            om.closeOrder(orderidJSP);
+            DataFacade df = new DataFacade();
+            df.closeOrder(orderidJSP);
             
             request.getSession().setAttribute("besked", "Order er bestilt");
             request.getSession().setAttribute("orderid", 0);
             
             response.sendRedirect("produktside.jsp");
             
-//            RequestDispatcher rd = request.getRequestDispatcher("loginservlet");
-//                rd.forward (request, response);
             
             out.println("<!DOCTYPE html>");
             out.println("<html>");

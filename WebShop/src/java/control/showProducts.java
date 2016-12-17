@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.ProduktMapper;
+import model.DataFacade;
 import model.entity.Product;
 
 /**
@@ -41,8 +41,8 @@ public class showProducts extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             
         HttpSession session = request.getSession();
-        ProduktMapper pm = new ProduktMapper();
-        List<Product> productliste = pm.getAllProducts();
+        DataFacade df = new DataFacade();
+        List<Product> productliste = df.getAllProducts();
         session.setAttribute("ProductListe", productliste);
         request.getSession().setAttribute("besked", "Se kurv");
         

@@ -14,7 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.ProduktMapper;
+import model.DataFacade;
 import model.entity.Product;
 
 /**
@@ -43,9 +43,9 @@ public class ProductDetail extends HttpServlet {
             
             out.println(selectedProduktID);
             
-            ProduktMapper pm = new ProduktMapper();
+            DataFacade df = new DataFacade();
             
-            List<Product> produktDetals = pm.getProductDetails(selectedProduktID);
+            List<Product> produktDetals = df.getProductDetails(selectedProduktID);
             out.println(produktDetals);
             request.getSession().setAttribute("productdetails", produktDetals);
                 

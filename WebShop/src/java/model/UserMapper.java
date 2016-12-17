@@ -50,7 +50,9 @@ public class UserMapper {
                 String hash = rs.getString("password");
                 if(PasswordStorage.verifyPassword(password, hash)){
                         return true;                    
-                    }
+                    }else{
+                    return false;
+                }
             }
 //                //før hash implementering
 //                String passwordFromDB = rs.getString("password");

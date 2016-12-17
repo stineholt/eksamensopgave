@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.DataFacade;
 import model.OrderMapper;
 import model.PasswordStorage;
 import model.UserMapper;
@@ -52,15 +53,17 @@ public class loginservlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserMapper um = new UserMapper();
+        DataFacade df = new DataFacade();
         
-        if(request.getParameter("username") == null)
-            response.sendRedirect("login.jsp");
+//        if(request.getParameter("username") == null)
+//            response.sendRedirect("login.jsp");
         
         String origin = request.getParameter("origin");
         
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        
+        request.getSession().setAttribute("besked", "Log ind her:");
         
         if (origin == null){
             response.sendRedirect("login.jsp");
@@ -69,30 +72,38 @@ public class loginservlet extends HttpServlet {
             switch (origin){
                 case "login" :
                     System.out.println("i login case");
-                {
-                    try {
-                        if(um.authenticateUser(username,password)){
-                            request.getSession().setAttribute("username", username);
-                            OrderMapper om = new OrderMapper();
-                            int orderid = om.getOrderID(username);
-                            request.getSession().setAttribute("orderid", orderid);
-                            request.getSession().setAttribute("authenticated","true");
-                            
-                            RequestDispatcher rd = request.getRequestDispatcher("showProducts");
-                            rd.forward (request, response); 
+                    {
+                        try {
+                            if(df.authenticateUser(username,password)){
+                                request.getSession().setAttribute("username", username);
+                                OrderMapper om = new OrderMapper();
+                                int orderid = om.getOrderID(username);
+                                request.getSession().setAttribute("orderid", orderid);
+                                request.getSession().setAttribute("authenticated","true");
+
+                                RequestDispatcher rd = request.getRequestDispatcher("showProducts");
+                                rd.forward (request, response); 
+                            }else{
+                                request.getSession().setAttribute("besked", "Forkert brugernavn eller password");
+                                response.sendRedirect("login.jsp");
+                            }
+                        } catch (PasswordStorage.CannotPerformOperationException ex) {
+                            Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (PasswordStorage.InvalidHashException ex) {
+                            Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    } catch (PasswordStorage.CannotPerformOperationException ex) {
-                        Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (PasswordStorage.InvalidHashException ex) {
-                        Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
-                case "logout" :{
+                case "logout" :
                     System.out.println("i logout case");
-                }
-                default :
+                    request.getSession().setAttribute("besked", "Logget ud");
+                    
                     response.sendRedirect("login.jsp");
-                    request.getSession().setAttribute("authenticated",null);
+                    request.getSession().invalidate();
+                    break;
+                default :
+                    request.getSession().setAttribute("besked", "Forkert brugernavn eller password");
+                    response.sendRedirect("login.jsp");
+//                    request.getSession().setAttribute("authenticated",null);
                     break;
             }
                     

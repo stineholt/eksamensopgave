@@ -43,11 +43,11 @@
                 </tr>
                 <tr>
                     <td>E-Mail</td>
-                    <td><input type="text" name="email" value="" class="form-control"/></td>
+                    <td><input type="email" name="email" value="" class="form-control"/></td>
                 </tr>
                 <tr>
                     <td>Mobil</td>
-                    <td><input type="text" name="mobil" value="" class="form-control"/></td>
+                    <td><input type="tel" name="mobil" value="" class="form-control"/></td>
                 </tr>
                 <tr>
                     <td>Adresse</td>
@@ -55,7 +55,7 @@
                 </tr>
                 <tr>
                     <td>Post nr</td>
-                    <td><input type="text" name="postnr" value="" class="form-control"/></td>
+                    <td><input type="number" name="postnr" value="" class="form-control"/></td>
                 </tr>
                 <tr><td></td><td></td></tr>
                 <tr><td></td><td></td></tr>

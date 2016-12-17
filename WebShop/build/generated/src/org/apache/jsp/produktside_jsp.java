@@ -61,72 +61,98 @@ public final class produktside_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <div class=\"navbar navbar-default\">\n");
       out.write("            <div class=\"form-group\" style=\"float: left; padding-left: 10px;\"><h1> Plakat Webshop</h1></div>\n");
       out.write("            <div class=\"form-group\" style=\"float: right;\">   \n");
-      out.write("            <form action=\"Login\" method=\"POST\">\n");
+      out.write("            <form action=\"loginservlet\" method=\"POST\">\n");
       out.write("                Logget ind som: ");
       out.print( session.getAttribute("username") );
       out.write("\n");
       out.write("                        ");
   // Tjekker at bruger er logget ind //
-                        //if(session.getAttribute("username") == null){
-                          //  request.getRequestDispatcher("login.jsp").forward(request, response);
-                            //return; }
+                        if(session.getAttribute("authenticated") == null){
+                            request.getRequestDispatcher("login.jsp").forward(request, response);
+                            return; }
                         
-      out.write(" \n");
+      out.write("\n");
       out.write("                        \n");
       out.write("                <input type=\"hidden\" name=\"origin\" value=\"logout\">\n");
       out.write("                <input type=\"submit\" value=\"Logout\" class=\"btn btn-default\">\n");
       out.write("            </form>\n");
+      out.write("                        \n");
+      out.write("                        \n");
       out.write("            </div>\n");
       out.write("        </div>     \n");
       out.write("\n");
       out.write("        <h1></h1>\n");
       out.write("        \n");
-      out.write("        <input type=\"text\" name=\"orderid\" value=\"");
+      out.write("        <div style=\"float: right; text-align: center; padding: 10px; margin-right: 5px;\" class=\"navbar navbar-default\">\n");
+      out.write("            <input type=\"hidden\" name=\"orderid\" value=\"");
       out.print(  session.getAttribute("orderid") );
       out.write("\">\n");
-      out.write("\n");
+      out.write("            <a style=\"color: red\">");
+      out.print(  session.getAttribute("besked") );
+      out.write("</a>\n");
+      out.write("            <br/><br/>\n");
+      out.write("            <form action=\"showPurchaseServlet\" method=\"POST\">\n");
+      out.write("                <input type=\"hidden\" name=\"orderid\" value=\"");
+      out.print(  session.getAttribute("orderid") );
+      out.write("\">\n");
+      out.write("                <input type=\"hidden\" name=\"username\" value=\"");
+      out.print( session.getAttribute("username") );
+      out.write("\">\n");
+      out.write("                <input type=\"submit\" value=\"Inkøbskurv\" class=\"btn btn-default\"/>\n");
+      out.write("                <br/><br/>\n");
+      out.write("            </form>\n");
+      out.write("        </div>\n");
       out.write("        \n");
-      out.write("        <table class=\"table table-striped\">\n");
-      out.write("            <tbody>\n");
-      out.write("                ");
+      out.write("        <div style=\"margin: auto; width: 65%; height: 100%; float: inside; padding: 10px;\">\n");
+      out.write("                <table class=\"table table-striped\">\n");
+      out.write("                    <tbody>\n");
+      out.write("                        ");
   
-                    List<Product> produktliste = (List<Product>)session.getAttribute("ProductListe");
-                    for (Product product : produktliste){
-                        
+                            List<Product> produktliste = (List<Product>)session.getAttribute("ProductListe");
+                            for (Product product : produktliste){
+                         
       out.write("\n");
-      out.write("                    \n");
-      out.write("                <form action=\"BuyProduct\" method=\"POST\">\n");
-      out.write("                \n");
-      out.write("                <tr>\n");
-      out.write("                    <td>\n");
-      out.write("                        <input type=\"hidden\" name=\"produktid\" value=\"");
+      out.write("\n");
+      out.write("                        <form action=\"BuyProduct\" method=\"POST\">\n");
+      out.write("\n");
+      out.write("                        \n");
+      out.write("                        <div style=\"float: left; padding: 10px; border: gray solid 1px;\">\n");
+      out.write("                                <input type=\"hidden\" name=\"origin\" value=\"AlleProdukter\">\n");
+      out.write("                                <input type=\"hidden\" name=\"produktid\" value=\"");
       out.print( product.getId() );
       out.write("\">\n");
-      out.write("                        <input type=\"hidden\" name=\"orderid\" value=\"");
+      out.write("                                <input type=\"hidden\" name=\"orderid\" value=\"");
       out.print(  session.getAttribute("orderid") );
       out.write("\">\n");
-      out.write("                    </td>\n");
-      out.write("                    <td>");
+      out.write("                                <img src=\"https://1369994046.rsc.cdn77.org/bilder/artiklar/750");
+      out.print(product.getId() );
+      out.write(".jpg\" style=\"width: 250px\">\n");
+      out.write("                                <br/><br/>\n");
+      out.write("                                <h3>");
       out.print( product.getProduktname() );
-      out.write("</td>\n");
-      out.write("                    <td>kategori</td>\n");
-      out.write("                    <td>Beskrivelse af produktet.<br/><br/>LEVERINGSTID:<br/>Forventet til ");
-      out.print( product.getLeveringstid() );
-      out.write(" dage</td>\n");
-      out.write("                    <td>");
-      out.print( product.getSize() );
-      out.write(" cm</td>\n");
-      out.write("                    <td>");
+      out.write("</h3>\n");
+      out.write("                                ");
+      out.print( product.getKategori() );
+      out.write("\n");
+      out.write("                                <br/><br/>\n");
+      out.write("\n");
+      out.write("                                ");
       out.print( product.getPris() );
-      out.write(" kr.</td>\n");
-      out.write("                    <td><input type=\"submit\" name=\"submit\" value=\"Tilføj inkøbskurv\"></td>\n");
-      out.write("                </tr>\n");
-      out.write("            </form>\n");
+      out.write(" kr.<br/><br/>\n");
+      out.write("                            <input type=\"submit\" name=\"submit\" value=\"Tilføj inkøbskurv\" class=\"btn\"></form>\n");
+      out.write("                            <form action=\"ProductDetail\" method=\"POST\" style=\"float: right;\">\n");
+      out.write("                                <input type=\"hidden\" name=\"produktid\" value=\"");
+      out.print( product.getId() );
+      out.write("\">\n");
+      out.write("                                <input type=\"submit\" name=\"submit\" value=\"Se mere\" class=\"btn btn-default\">\n");
+      out.write("                            </form>  \n");
+      out.write("\n");
+      out.write("                        </div>\n");
       out.write("                        \n");
       out.write("                    ");
  } 
       out.write("\n");
-      out.write("                \n");
+      out.write("            </div>    \n");
       out.write("                \n");
       out.write("            </tbody>\n");
       out.write("        </table>\n");
