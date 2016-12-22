@@ -48,7 +48,7 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<html>\n");
       out.write("    <head>\n");
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
-      out.write("        <title>WEBSHOP</title>\n");
+      out.write("        <title>PlakatShop</title>\n");
       out.write("\n");
       out.write("        <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n");
       out.write("\n");
@@ -58,12 +58,13 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
  
             if(session.getAttribute("username") == null){
                 session.setAttribute("username", "Insæt username");
+                session.setAttribute("besked","");
             }
             
       out.write("   \n");
       out.write("        <div>\n");
       out.write("        <nav class=\"navbar navbar-default\" style=\"padding: 10px; width: 300px; margin: auto;\">\n");
-      out.write("            <h1>Webshopname</h1>\n");
+      out.write("            <h1>PlakatShop</h1>\n");
       out.write("        <div class=\"form-group\">\n");
       out.write("        <form action=\"loginservlet\" method=\"POST\">\n");
       out.write("            \n");
@@ -73,10 +74,13 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.print( session.getAttribute("username"));
       out.write("\"  class=\"form-control\"/><br>\n");
       out.write("            <input type=\"password\" name=\"password\" placeholder=\"Password\" class=\"form-control\"/><br>\n");
-      out.write("            <input type=\"submit\" value=\"Log in\" class=\"btn btn-default\"/><br><br>\n");
+      out.write("            \n");
+      out.write("            <input type=\"submit\" value=\"Log in\" class=\"btn btn-default\"/> <br><a style=\"color: red\">");
+      out.print(  session.getAttribute("besked") );
+      out.write("</a><br><br>\n");
       out.write("        </form>\n");
       out.write("        <form action=\"createNewUser.jsp\" method=\"GET\">\n");
-      out.write("            <input type=\"submit\" value=\"Sign up\" class=\"btn btn-default\"/>\n");
+      out.write("            <input type=\"submit\" value=\"Opret ny bruger\" class=\"btn \"/>\n");
       out.write("        </form>\n");
       out.write("        </div>\n");
       out.write("        </nav>\n");

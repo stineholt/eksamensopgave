@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>WEBSHOP - Produkt liste</title>
+        <title>PlakatShop - Produkt liste</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     </head>
     <body>
@@ -71,6 +71,7 @@
                                 <%= product.getPris() %> kr.<br/><br/>
                             <input type="submit" name="submit" value="Tilføj inkøbskurv" class="btn"></form>
                             <form action="ProductDetail" method="POST" style="float: right;">
+                                <input type="hidden" name="origin" value="Productdetails">  
                                 <input type="hidden" name="produktid" value="<%= product.getId() %>">
                                 <input type="submit" name="submit" value="Se mere" class="btn btn-default">
                             </form>  

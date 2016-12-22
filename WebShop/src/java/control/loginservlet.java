@@ -85,24 +85,28 @@ public class loginservlet extends HttpServlet {
                                 rd.forward (request, response); 
                             }else{
                                 request.getSession().setAttribute("besked", "Forkert brugernavn eller password");
-                                response.sendRedirect("login.jsp");
+                                RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+                                rd.forward (request, response); 
                             }
                         } catch (PasswordStorage.CannotPerformOperationException ex) {
                             Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (PasswordStorage.InvalidHashException ex) {
                             Logger.getLogger(loginservlet.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    }
+                    }break;
                 case "logout" :
                     System.out.println("i logout case");
-                    request.getSession().setAttribute("besked", "Logget ud");
                     
-                    response.sendRedirect("login.jsp");
                     request.getSession().invalidate();
+                    request.getSession().setAttribute("besked", "Logget ud");
+                    request.getSession(true);
+                    RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+                                rd.forward (request, response); 
                     break;
                 default :
                     request.getSession().setAttribute("besked", "Forkert brugernavn eller password");
-                    response.sendRedirect("login.jsp");
+                    request.getRequestDispatcher("login.jsp").forward (request, response); 
+//                    response.sendRedirect("login.jsp");
 //                    request.getSession().setAttribute("authenticated",null);
                     break;
             }
